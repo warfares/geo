@@ -19,7 +19,7 @@ def query():
 	l = Layer(layer_name,0)
 	result = l.query(fields, criteria)
 	
-	return {'test':'test'}
+	return {'result': result }
 
 @route('/layer/:layer_name/bbox')
 def bbox(layer_name):

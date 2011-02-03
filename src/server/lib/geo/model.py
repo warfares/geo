@@ -63,7 +63,7 @@ class Layer:
 
 		cursor.execute(sql)
 		rows = cursor.fetchall()
-				
+
 		metadatas = []
 		for row in rows:
 			m = Metadata(row['column_name'], row['data_type'])
@@ -73,6 +73,8 @@ class Layer:
 		conn.close()
 		return metadatas
 	
+	#TODO limit 
+	#TODO criteria building
 	def query(self, fields, criteria):
 		
 		conn = connect(CONN_STR)
@@ -85,14 +87,17 @@ class Layer:
 		rows = cursor.fetchall()
 
 		results = []
+		result = {}
 		
+		#building dynamic output dictionary from the fields
 		for row in rows:
-			gid = row['gid']
-			results.append(gid)
+			for f in fields.split(','):
+				result[f] = row[f]
+			
+			results.append(result)
 
 		cursor.close()
 		conn.close()
-
 		return results
 		
 		
