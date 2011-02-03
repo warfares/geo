@@ -4,7 +4,6 @@
 geo.py
 
 Created by Rodolfo  Barriga.
-Copyright (c) 2010 Lights All rights reserved.
 """
 
 from psycopg2 import connect
