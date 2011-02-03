@@ -1,0 +1,3 @@
+build/
+dist/
+geo_data_proxy.egg-info/
