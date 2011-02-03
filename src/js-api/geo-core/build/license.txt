@@ -1,0 +1,9 @@
+/*
+  geo-core.js 
+  Copyright 2005-2010 :-), Inc., released under the Clear BSD  license.
+
+  Includes compressed code under the following licenses:
+
+  (For uncompressed versions of the code used please see the
+  Geo-Core GIT repository: ...)
+*/
