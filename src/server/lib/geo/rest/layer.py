@@ -9,7 +9,6 @@ def metadata(layer_name):
 	metadatas = map(lambda m: vo.metadata(m), l.metadata())
 	return vo.collection(metadatas, len(metadatas))
 	
-#OK 
 @post('layer/query')
 def query():
 	o = json.load(request.body)

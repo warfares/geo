@@ -1,4 +1,4 @@
-# all VO was a Custom dict-JSON description 
+# vo-> objects python to JS notation 
 
 #general purpose 
 def collection(entities,total):
