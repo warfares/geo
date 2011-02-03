@@ -1,6 +1,5 @@
 from bottle import *
 from geo.model import *
-from geo.rest.util import *
 import geo.rest.vo as vo
 import json
 
