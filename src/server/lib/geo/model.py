@@ -9,6 +9,7 @@ Created by Rodolfo  Barriga.
 from psycopg2 import connect
 import psycopg2.extras
 import sys
+import decimal
 
 CONN_STR = 'user=postgres password=postgres dbname=pelambre'
 #TODO check data connection level..
@@ -92,7 +93,11 @@ class Layer:
 		#building dynamic output dictionary from the fields
 		for row in rows:
 			for f in fields.split(','):
-				result[f] = row[f]
+				v = row[f]
+				if isinstance(v, decimal.Decimal):
+					v = float(v)
+
+				result[f] = v
 			
 			results.append(result)
 
