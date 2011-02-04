@@ -25,7 +25,7 @@ just get abstract and generic access from web(rest) to postgres/postgis geometry
 		alert(bbox.xmin);
 		//wherever !! 
 	},this);
-	l.getStaticBBox(layerName, 32719);
+	l.getStaticBBox(layerName);
 	
 	//bbox for a group o layer
 	
