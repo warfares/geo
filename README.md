@@ -1,7 +1,7 @@
 # Overview.
 
 This code was originally forked and port from a C# Project (WCF) to Python (mod_wsgi) the purpose is 
-just get abstract and generic access to postgres/postgis geometry functions from web(rest) including a Javascript API.
+just get abstract and generic access from web(rest) to postgres/postgis geometry functions, including a Javascript API.
 
 * The server python library is compatible with Python 2.7. and is working with mod_wsgi (http://code.google.com/p/modwsgi/)_
 
