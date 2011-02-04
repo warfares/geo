@@ -27,7 +27,7 @@ def withinpoint():
 	geoms = group.within_point(fields,point, dist)
 	
 	out = map(lambda g: vo.geometry(g), geoms)
-	return {'geoms': out }
+	return vo.collection(out, len(out))
 
 @post('group/withinbbox')
 def withinbbox():
@@ -45,4 +45,4 @@ def withinbbox():
 	layers_out = group.within_bbox(bbox)
 	
 	out = map(lambda l: vo.layer(l), layers_out)
-	return {'layers': out }
+	return vo.collection(out, len(out))

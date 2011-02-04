@@ -17,9 +17,9 @@ def query():
 	criteria = o['criteria']
 	
 	l = Layer(layer_name,0)
-	result = l.query(fields, criteria)
+	results = l.query(fields, criteria)
 	
-	return {'result': result }
+	return vo.collection(results, len(results))
 
 @route('/layer/:layer_name/bbox')
 def bbox(layer_name):
