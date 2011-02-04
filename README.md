@@ -1,14 +1,12 @@
 # Overview.
 
-This code was originally forked and port from a GIS-WEB C# Project (WCF) to Python (mod_wsgi) the purpose is 
+This code was originally forked and port from a C# Project (WCF) to Python (mod_wsgi) the purpose is 
 just get abstract and generic access to postgres/postgis geometry functions from web(rest) including a Javascript API.
 
 * The server python library is compatible with Python 2.7. and is working with mod_wsgi (http://code.google.com/p/modwsgi/)_
 
 
-
 # Example JavaScript API.
-
 
 	the code look like this ...
 	
@@ -43,5 +41,18 @@ just get abstract and generic access to postgres/postgis geometry functions from
 	g.getStaticBbox(vo);
 
 
+# Dependencies 
+	
+	server:
+		python 2.7
+		psycopg
+		bottle  		http://bottle.paws.de/docs/dev/index.html
+		
+		mod_wsgi		http://code.google.com/p/modwsgi/
+		
+	js-api
+		ext-core 		http://www.sencha.com
+		
+	
 
 
