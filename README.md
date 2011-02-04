@@ -55,7 +55,7 @@ just get abstract and generic access from web(rest) to postgres/postgis geometry
 		
 
 
-# Whish List 
+# Wish List 
 
 	TODO: try to change the sql queries (now on the begining) for a database(postgres/postgis mysql etc..) dialect's..
 	TODO: upgrade to the upcoming Sencha Products Release .
