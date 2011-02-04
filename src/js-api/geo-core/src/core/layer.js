@@ -1,7 +1,7 @@
 // TODO add SRID .. on call 
 
-Ext.ns("Geo.Core");
-Geo.Core.Layer = Ext.extend(Ext.util.Observable, {
+Ext.ns("Geo.core");
+Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 	constructor: function (config) {
 		this.addEvents(
 			'query',
@@ -9,7 +9,7 @@ Geo.Core.Layer = Ext.extend(Ext.util.Observable, {
 			'bbox',
 			'staticbbox'
 		);
-		Geo.Core.Layer.superclass.constructor.call(config);
+		Geo.core.Layer.superclass.constructor.call(config);
 	}
 	,
 	query:function(layer, fields, criteria){

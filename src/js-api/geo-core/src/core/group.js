@@ -1,15 +1,19 @@
-Ext.ns("Geo.Core");
-Geo.Core.Group = Ext.extend(Ext.util.Observable, {
+Ext.ns("Geo.core");
+Geo.core.Group = Ext.extend(Ext.util.Observable, {
 	constructor: function (config) {
 		this.addEvents(
 			'staticbbox',
 			'withinpoint',
 			'closestpoint'
 		);
-		Geo.Core.Group.superclass.constructor.call(config);
+		Geo.core.Group.superclass.constructor.call(config);
 	}
 	,
-	getStaticBBox:function(layer){
+	getStaticBBox:function(layers){
+		var params = {
+			layers: layers
+		};
+		
 		Ext.Ajax.request({
 			url: Geo.UriTemplate.getUri('group_static_bbox'),
 			method: 'Post',
