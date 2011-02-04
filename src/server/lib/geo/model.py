@@ -84,6 +84,9 @@ class Layer:
 		sql = 'select %s ' % fields
 		sql += 'from %s ' % self.name
 		
+		if(criteria)
+			sql = 'where %' % criteria_to_sql(criteria)
+		
 		cursor.execute(sql)
 		rows = cursor.fetchall()
 
@@ -104,6 +107,13 @@ class Layer:
 		cursor.close()
 		conn.close()
 		return results
+	
+	def _criteria_to_sql(criteria):
+		gid = 0
+		for c in criteria:
+			gid = c['rowID']
+		#TODO: begin to work on parser // presentation its OK
+		return ''
 		
 		
 	def bbox(self, to_srid):
