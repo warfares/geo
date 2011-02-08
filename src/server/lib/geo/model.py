@@ -144,8 +144,10 @@ class Layer:
 			operator_template = c['operatorTemplate']
 			entry_values = c['entryValues']
 			
-			#TODO other template operators...ex Between ..!!
-			sql += and_or + ' ' + column_name + ' ' + operator_template.replace('{0}', str(entry_values[0])) + ' '
+			for i, v in enumerate(entry_values):
+				operator_template = operator_template.replace('{' + str(i) + '}', str(v))
+			
+			sql += and_or + ' ' + column_name + ' ' + operator_template + ' '
 			
 		return sql
 
