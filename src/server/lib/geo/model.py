@@ -100,7 +100,7 @@ class Layer:
 		
 		return count
 	
-	def query(self, fields, criteria, paging, start, limit):
+	def query(self, fields, criteria, paging=False, start=0, limit=0):
 		
 		conn = connect(CONN_STR)
 		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
