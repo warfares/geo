@@ -78,8 +78,29 @@ class Layer:
 		conn.close()
 		return metadatas
 	
+	def query_count(self, criteria):
+		conn = connect(CONN_STR)
+		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+		sql = 'select count(*) as count '
+		sql += 'from %s ' % self.name
+
+		if(criteria):
+			sql += 'where %s ' % self.__criteria_to_sql(criteria)
+		
+		sql += ';'
+		
+		cursor.execute(sql)
+		row = cursor.fetchone()
+
+		count = row['count']
+		
+		cursor.close()
+		conn.close()
+		
+		return count
 	
-	def query(self, fields, criteria):
+	def query(self, fields, criteria, paging, start, limit):
 		
 		conn = connect(CONN_STR)
 		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -88,21 +109,24 @@ class Layer:
 		sql += 'from %s ' % self.name
 
 		if(criteria):
-			sql += 'where %s ;' % self.__criteria_to_sql(criteria)
+			sql += 'where %s ' % self.__criteria_to_sql(criteria)
+		
+		if(paging):
+			sql += ' offset %s limit %s ' %(start, limit)
+			
+		sql += ';'
 
 		cursor.execute(sql)
 		rows = cursor.fetchall()
 
 		results = []
-		result = {}
 		
 		#building dynamic output dictionary from the fields
 		for row in rows:
+			result = {}
 			for f in fields.split(','):
 				v = row[f]
-				if isinstance(v, decimal.Decimal):
-					v = float(v)
-
+				if isinstance(v, decimal.Decimal): v = float(v)
 				result[f] = v
 
 			results.append(result)

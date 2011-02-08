@@ -15,10 +15,13 @@ def query():
 	layer_name = o['layer']
 	fields = o['fields']
 	criteria = o['criteria']
+	paging = o['paging']
+	start = o['start']
+	limit = o['limit']
 	
 	l = Layer(layer_name,0)
-	results = l.query(fields, criteria)
-	return vo.collection(results, len(results))
+	results = l.query(fields, criteria, paging, start, limit)
+	return vo.collection(results, l.query_count(criteria))
 
 @route('/layer/:layer_name/bbox')
 def bbox(layer_name):
