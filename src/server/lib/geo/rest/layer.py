@@ -20,7 +20,7 @@ def query():
 	limit = o['limit']
 	
 	l = Layer(layer_name,0)
-	results = l.query(fields, criteria, paging, start, limit)
+	results = l.query(fields, criteria, paging, start, limit, True)
 	return vo.collection(results, l.query_count(criteria))
 
 @route('/layer/:layer_name/bbox')

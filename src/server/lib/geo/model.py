@@ -100,7 +100,7 @@ class Layer:
 		
 		return count
 	
-	def query(self, fields, criteria, paging=False, start=0, limit=0):
+	def query(self, fields, criteria, paging=False, start=0, limit=0, order=False):
 		
 		conn = connect(CONN_STR)
 		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -111,9 +111,12 @@ class Layer:
 		if(criteria):
 			sql += 'where %s ' % self.__criteria_to_sql(criteria)
 		
+		if(order):
+			sql += ' order by %s ' %(fields)
+		
 		if(paging):
 			sql += ' offset %s limit %s ' %(start, limit)
-			
+		
 		sql += ';'
 
 		cursor.execute(sql)
