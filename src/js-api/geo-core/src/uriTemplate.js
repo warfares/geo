@@ -18,6 +18,8 @@ Geo.UriTemplate = {
 
 	layer: 'layer/',
 	layer_query : 'layer/query',
+	
+	metadata_distinct_values : 'metadata/distinct_values',
 
 	getUri: function(action, option) {
 		return GEO_SERVICE + Geo.UriTemplate[action] + (option || '');
