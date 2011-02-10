@@ -6,17 +6,15 @@ geo.py
 Created by Rodolfo  Barriga.
 """
 
-
 from psycopg2 import connect
 import psycopg2.extras
 import sys
 import decimal
 
 
-
 CONN_STR = 'user=postgres password=postgres dbname=pelambre'
 #TODO check data connection level..
-
+#TODO fix layer name..
 
 class Point:
 	def __init__(self, x, y):
@@ -39,10 +37,29 @@ class Bbox:
 		return  'POLYGON((%s, %s, %s, %s, %s))'  %(bottom_left, bottom_right, top_right, top_left, bottom_left);
 		
 class Metadata:
-	def __init__(self, name, type):
+	def __init__(self, name, type=''):
 		self.name = name
 		self.type = type
-
+	
+	def distinct_values(self, layer_name, limit):
+		conn = connect(CONN_STR)
+		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+		
+		sql = 'select distinct %s as values ' % self.name 
+		sql += 'from %s where %s is not null ' % (layer_name, self.name)
+		sql += 'limit %s' % limit
+		
+		cursor.execute(sql)
+		rows = cursor.fetchall()
+		
+		values = []
+		for row in rows:
+			values.append({'values':row['values']})
+			
+		cursor.close()
+		conn.close()
+		return values
+		
 class Layer:
 	def __init__(self, name, srid):
 		self.name = name
