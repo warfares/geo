@@ -1,10 +1,6 @@
 from bottle import *
 from geo.model import *
 
-@route('/getlocations')
-#TODO FIX pagging 
-
-
 @route('/metadata/distinct_values')
 def distinct_values():
 	name = request.GET.get('name')
