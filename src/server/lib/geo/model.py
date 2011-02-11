@@ -6,15 +6,9 @@ geo.py
 Created by Rodolfo  Barriga.
 """
 
-from psycopg2 import connect
-import psycopg2.extras
 import sys
 import decimal
-
-
-CONN_STR = 'user=postgres password=postgres dbname=pelambre'
-#TODO check data connection level..
-#TODO fix layer name..
+import geo.util as util
 
 class Point:
 	def __init__(self, x, y):
@@ -42,32 +36,27 @@ class Metadata:
 		self.type = type
 	
 	def distinct_values(self, layer_name, limit):
-		conn = connect(CONN_STR)
-		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 		
 		sql = 'select distinct %s as values ' % self.name 
 		sql += 'from %s where %s is not null ' % (layer_name, self.name)
 		sql += 'limit %s' % limit
 		
-		cursor.execute(sql)
-		rows = cursor.fetchall()
+		dh = util.DataHelper()
+		rows = dh.fetchall(sql)
 		
 		values = []
 		for row in rows:
 			values.append({'values':row['values']})
-			
-		cursor.close()
-		conn.close()
+
+		dh.close()
 		return values
 		
 class Layer:
-	def __init__(self, name, srid):
+	def __init__(self, name, srid=0):
 		self.name = name
 		self.srid = srid
 	
 	def metadata(self):
-		conn = connect(CONN_STR)
-		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 		r = self.name.split('.')
 		schema = ''
@@ -83,21 +72,18 @@ class Layer:
 		sql += 'and column_name != \'%s\' ' % 'the_geom'
 		sql += 'order by ordinal_position;'
 
-		cursor.execute(sql)
-		rows = cursor.fetchall()
+		dh = util.DataHelper()
+		rows = dh.fetchall(sql)
 
 		metadatas = []
 		for row in rows:
 			m = Metadata(row['column_name'], row['data_type'])
 			metadatas.append(m)
 			
-		cursor.close()
-		conn.close()
+		dh.close()
 		return metadatas
 	
 	def query_count(self, criteria):
-		conn = connect(CONN_STR)
-		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 		sql = 'select count(*) as count '
 		sql += 'from %s ' % self.name
@@ -107,21 +93,16 @@ class Layer:
 		
 		sql += ';'
 		
-		cursor.execute(sql)
-		row = cursor.fetchone()
+		dh = util.DataHelper()
+		row = dh.fetchone(sql)
 
 		count = row['count']
 		
-		cursor.close()
-		conn.close()
-		
+		dh.close()
 		return count
 	
 	def query(self, fields, criteria, paging=False, start=0, limit=0, order=False):
 		
-		conn = connect(CONN_STR)
-		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
 		sql = 'select %s ' % fields
 		sql += 'from %s ' % self.name
 
@@ -136,8 +117,8 @@ class Layer:
 		
 		sql += ';'
 
-		cursor.execute(sql)
-		rows = cursor.fetchall()
+		dh = util.DataHelper()
+		rows = dh.fetchall(sql)
 
 		results = []
 		
@@ -151,8 +132,7 @@ class Layer:
 
 			results.append(result)
 
-		cursor.close()
-		conn.close()
+		dh.close()
 		return results
 
 	def __criteria_to_sql(self, criteria):
@@ -172,8 +152,6 @@ class Layer:
 		return sql
 
 	def bbox(self, to_srid):
-		conn = connect(CONN_STR)
-		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 		
 		sql = 'select '
 		sql += 'st_xmin(transform(st_setSRID(r.box, %s), %s)) as xmin, ' % (self.srid, to_srid)
@@ -182,36 +160,28 @@ class Layer:
 		sql += 'st_ymax(transform(st_setSRID(r.box, %s), %s)) as ymax ' % (self.srid, to_srid)
 		sql += 'from (select st_extent(the_geom) as box from %s) as r ' % (self.name)
 
-		cursor.execute(sql)
-		row = cursor.fetchone()
+		dh = util.DataHelper()
+		row = dh.fetchone(sql)
 		
 		bbox = Bbox(Point(row['xmin'], row['ymin']), Point(row['xmax'], row['ymax']))
 		
-		cursor.close()
-		conn.close()
-		
+		dh.close()
 		return bbox
 	
 	def static_bbox(self):
-		conn = connect(CONN_STR)
-		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 		
 		sql = 'select "left", bottom, "right", top from geometry_columns '
 		sql += 'where f_table_name = \'%s\'' % (self.name.split('.')[1])
 
-		cursor.execute(sql)
-		row = cursor.fetchone()
+		dh = util.DataHelper()
+		row = dh.fetchone(sql)
 		
 		bbox = Bbox(Point(row['left'], row['bottom']), Point(row['right'], row['top']))
 		
-		cursor.close()
-		conn.close()
+		dh.close()
 		return bbox
 	
-	#OK
 	def closest_point(self, point):
-		conn = connect(CONN_STR)
-		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 		
 		geometry = 'st_geomfromtext( \'%s\', %s )' % (point.wkt(), self.srid)
 
@@ -223,14 +193,12 @@ class Layer:
 		sql += 'order by dist '
 		sql += 'limit 1'
 
-		cursor.execute(sql)
-		row = cursor.fetchone()
+		dh = util.DataHelper()
+		row = dh.fetchone(sql)
 
 		p = Point(row['x'], row['y'])
 
-		cursor.close()
-		conn.close()
-		
+		dh.close()
 		return p
 
 class Geometry:
@@ -241,12 +209,9 @@ class Geometry:
 class Group:
 	def __init__(self, layers):
 		self.layers = layers
-		
 	
 	def static_bbox(self):
-		conn = connect(CONN_STR)
-		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-	
+		
 		sql = ''
 		for layer in self.layers:
 			if len(sql) > 0:
@@ -255,8 +220,8 @@ class Group:
 			sql += 'select "left", bottom, "right", top from geometry_columns '
 			sql += 'where f_table_name = \'%s\' ' % (layer.name.split('.')[1])
 	
-		cursor.execute(sql)
-		rows = cursor.fetchall()
+		dh = util.DataHelper()
+		row = dh.fetchone(sql)
 		
 		left = []
 		bottom = []
@@ -271,11 +236,10 @@ class Group:
 			
 		bbox = Bbox(Point(min(left), min(bottom)), Point(max(right), max(top)))
 		
+		dh.Close()
 		return bbox
 		
 	def within_point(self,fields,point,dist):
-		conn = connect(CONN_STR)
-		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 		
 		sql = ''
 		for layer in self.layers:
@@ -292,21 +256,18 @@ class Group:
 			sql += 'from %s where ' % layer.name
 			sql += 'st_dwithin(the_geom, %s, %s) ' % (transGeom, dist)
 
-		cursor.execute(sql)
-		rows = cursor.fetchall()
+		dh = util.DataHelper()
+		rows = dh.fetchall(sql)
 				
 		geoms = []
 		for row in rows:
 			g = Geometry(row['gid'], Layer(row['layer_name'], 0))
 			geoms.append(g)
 		
-		cursor.close()
-		conn.close()
+		dh.close()
 		return geoms
 
 	def within_bbox(self, bbox):
-		conn = connect(CONN_STR)
-		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 		
 		sql = ''
 		for layer in self.layers:
@@ -321,20 +282,20 @@ class Group:
 			sql += 'st_dwithin(the_geom, %s, %s) ' % (transGeom, 0)
 			sql += 'limit 1 )'
 
-		cursor.execute(sql)
-		rows = cursor.fetchall()
+		dh = util.DataHelper()
+		rows = dh.fetchall(sql)
 		
 		layers = []
 		for row in rows:
 			l = Layer(row['layer_name'], 0)
 			layers.append(l)
 		
-		cursor.close()
-		conn.close()
+		dh.close()
 		return layers
 
 	#TODO
 	def closest_point(self, point):
+		
 		points = []
 		for layer in self.layers:
 			p = layer.closest_point(point)

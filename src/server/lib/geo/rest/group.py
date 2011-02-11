@@ -7,7 +7,7 @@ import json
 def staticbbox():
 	o = json.load(request.body)
 	vo_layers = o['layers']
-	layers = map(lambda l: Layer(l['name'],0), vo_layers)
+	layers = map(lambda l: Layer(l['name']), vo_layers)
 	group = Group(layers)
 	bbox = group.static_bbox()
 	return vo.bbox(bbox)
