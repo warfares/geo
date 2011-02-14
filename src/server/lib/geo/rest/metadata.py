@@ -1,5 +1,6 @@
 from bottle import *
 from geo.model import *
+import geo.rest.vo as vo
 
 @route('/metadata/distinct_values')
 def distinct_values():
