@@ -46,7 +46,9 @@ class Metadata:
 		
 		values = []
 		for row in rows:
-			values.append({'values':row['values']})
+			v = row['values']
+			if isinstance(v, decimal.Decimal): v = float(v)
+			values.append({'values':v})
 
 		dh.close()
 		return values
