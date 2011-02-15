@@ -6,10 +6,13 @@ geo.py
 Created by Rodolfo  Barriga.
 """
 
+
 from psycopg2 import connect
 import psycopg2.extras
 import sys
 import decimal
+
+
 
 CONN_STR = 'user=postgres password=postgres dbname=pelambre'
 #TODO check data connection level..
@@ -75,8 +78,7 @@ class Layer:
 		conn.close()
 		return metadatas
 	
-	#TODO limit 
-	#TODO criteria building
+	
 	def query(self, fields, criteria):
 		
 		conn = connect(CONN_STR)
@@ -84,10 +86,10 @@ class Layer:
 
 		sql = 'select %s ' % fields
 		sql += 'from %s ' % self.name
-		
+
 		if(criteria):
-			sql = 'where %' % _criteria_to_sql(criteria)
-		
+			sql += 'where %s ;' % self.__criteria_to_sql(criteria)
+
 		cursor.execute(sql)
 		rows = cursor.fetchall()
 
@@ -102,21 +104,27 @@ class Layer:
 					v = float(v)
 
 				result[f] = v
-			
+
 			results.append(result)
 
 		cursor.close()
 		conn.close()
 		return results
-	
-	def _criteria_to_sql(criteria):
-		gid = 0
+
+	def __criteria_to_sql(self, criteria):
+		sql = ''
 		for c in criteria:
-			gid = c['rowID']
-		#TODO: begin to work on parser // presentation its OK
-		return ''
-		
-		
+			row_id = c['rowID']
+			and_or = c['andOr']
+			column_name = c['columnName']
+			operator_template = c['operatorTemplate']
+			entry_values = c['entryValues']
+			
+			#TODO other template operators...ex Between ..!!
+			sql += and_or + ' ' + column_name + ' ' + operator_template.replace('{0}', str(entry_values[0])) + ' '
+			
+		return sql
+
 	def bbox(self, to_srid):
 		conn = connect(CONN_STR)
 		cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
