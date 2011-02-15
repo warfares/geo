@@ -54,13 +54,14 @@ class Layer:
 		name = ''
 		if (len(r)>1):
 			schema = r[0]
-			name = r[1] 
+			name = r[1]
 
 		sql = 'select column_name, data_type '
 		sql += 'from information_schema.columns '
 		sql += 'where table_schema = \'%s\' ' % schema
 		sql += 'and  table_name = \'%s\' ' % name
-		sql += 'and column_name != \'%s\';' % 'the_geom'
+		sql += 'and column_name != \'%s\' ' % 'the_geom'
+		sql += 'order by ordinal_position;'
 
 		cursor.execute(sql)
 		rows = cursor.fetchall()
@@ -84,8 +85,8 @@ class Layer:
 		sql = 'select %s ' % fields
 		sql += 'from %s ' % self.name
 		
-		if(criteria)
-			sql = 'where %' % criteria_to_sql(criteria)
+		if(criteria):
+			sql = 'where %' % _criteria_to_sql(criteria)
 		
 		cursor.execute(sql)
 		rows = cursor.fetchall()
