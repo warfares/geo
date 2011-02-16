@@ -9,6 +9,8 @@
  */
 Ext.ns("Geo");
 
+Geo.WSGIScriptAlias = '';
+
 Geo.UriTemplate = {
 
 	group_static_bbox: 'group/staticbbox',
@@ -22,7 +24,8 @@ Geo.UriTemplate = {
 	metadata_distinct_values : 'metadata/distinct_values',
 
 	getUri: function(action, option) {
-		return GEO_SERVICE + Geo.UriTemplate[action] + (option || '');
+		var hostname = 'http://' + window.location.hostname + '/';
+		return hostname + Geo.WSGIScriptAlias + '/' + Geo.UriTemplate[action] + (option || '');
 	}
 };  // eo Geo.Uritemplate
-// eof
+//eof
