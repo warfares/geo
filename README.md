@@ -15,7 +15,7 @@ just get abstract and generic access from web(rest) to postgres/postgis geometry
     <script src="your-app-path/geo-core.js" type="text/javascript" charset="utf-8" ></script>
 
 
-	GEO_SERVER = 'http://your-domain/mod_wsgi_server_path'
+	Geo.WSGIScriptAlias = 'mod_wsgi_server_path'
 	
 	//bbox for a layer
 	
