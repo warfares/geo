@@ -18,9 +18,10 @@ def query():
 	paging = o['paging']
 	start = o['start']
 	limit = o['limit']
+	wkt = o['wkt']
 	
 	l = Layer(layer_name)
-	results = l.query(fields, criteria, paging, start, limit, True)
+	results = l.query(fields, criteria, paging, start, limit,True, wkt)
 	return vo.collection(results, l.query_count(criteria))
 
 #TODO Fix this static values 

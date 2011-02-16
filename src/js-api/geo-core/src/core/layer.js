@@ -12,10 +12,11 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 		Geo.core.Layer.superclass.constructor.call(config);
 	}
 	,
-	query:function(layer, fields, criteria, paging, start, limit){
+	query:function(layer, fields, criteria, paging, start, limit, wkt){
 		paging = paging || false;
 		start = start || 0;
 		limit = limit || 0;
+		wkt = wkt || false; 
 		
 		var params = {
 			paging : paging,
@@ -23,7 +24,8 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 			limit : limit,
 			layer : layer,
 			fields : fields,
-			criteria : criteria
+			criteria : criteria,
+			wkt:wkt
 		};
 
 		Ext.Ajax.request({

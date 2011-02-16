@@ -57,7 +57,7 @@ class Layer:
 	def __init__(self, name, srid=0):
 		self.name = name
 		self.srid = srid
-	
+
 	def metadata(self):
 
 		r = self.name.split('.')
@@ -103,11 +103,17 @@ class Layer:
 		dh.close()
 		return count
 	
-	def query(self, fields, criteria, paging=False, start=0, limit=0, order=False):
+	def query(self, fields, criteria, paging=False, start=0, limit=0, order=False, wkt=False):
 		
+		#fields 
 		sql = 'select %s ' % fields
+		if(wkt):
+			sql += ', astext(transform(the_geom, 96)) as wkt '
+	
+		#table
 		sql += 'from %s ' % self.name
-
+	
+		#options 
 		if(criteria):
 			sql += 'where %s ' % self.__criteria_to_sql(criteria)
 		
@@ -131,7 +137,9 @@ class Layer:
 				v = row[f]
 				if isinstance(v, decimal.Decimal): v = float(v)
 				result[f] = v
-
+			if('wkt' in row):
+				result['wkt'] = row['wkt']
+			
 			results.append(result)
 
 		dh.close()
