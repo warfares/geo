@@ -231,7 +231,7 @@ class Group:
 			sql += 'where f_table_name = \'%s\' ' % (layer.name.split('.')[1])
 	
 		dh = util.DataHelper()
-		row = dh.fetchone(sql)
+		rows = dh.fetchall(sql)
 		
 		left = []
 		bottom = []
@@ -246,7 +246,7 @@ class Group:
 			
 		bbox = Bbox(Point(min(left), min(bottom)), Point(max(right), max(top)))
 		
-		dh.Close()
+		dh.close()
 		return bbox
 		
 	def within_point(self,fields,point,dist):
