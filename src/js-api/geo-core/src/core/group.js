@@ -62,7 +62,7 @@ Geo.core.Group = Ext.extend(Ext.util.Observable, {
 			scope: this,
 			success: function (response, options) {
 				var result = Ext.util.JSON.decode(response.responseText);
-				this.fireEvent('withinbbox', result.geoms);
+				this.fireEvent('withinbbox', result);
 			}
 		});
 	}
