@@ -21,7 +21,7 @@ def withinpoint():
 	y = o['point']['y']
 	dist = o['dist']
 
-	layers = map(lambda l: Layer(l['name'],'24879'), vo_layers)
+	layers = map(lambda l: Layer(l['name'],l['srid']), vo_layers)
 	group = Group(layers)
 	point = Point(x,y)
 	geoms = group.within_point(fields,point, dist)
@@ -39,7 +39,7 @@ def withinbbox():
 	point_max = Point(vo_bbox['maxx'],vo_bbox['maxy'])
 	
 	bbox = Bbox(point_min, point_max)
-	layers = map(lambda l: Layer(l['name'],'24879'), vo_layers)
+	layers = map(lambda l: Layer(l['name'],l['srid']), vo_layers)
 	group = Group(layers)
 	
 	layers_out = group.within_bbox(bbox)
