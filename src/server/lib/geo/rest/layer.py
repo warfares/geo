@@ -32,7 +32,7 @@ def bbox(layer_name):
 	return vo.bbox(bbox)
 
 @route('/layer/:layer_name/staticbbox')
-def static_bbox(layer_name):
+def staticbbox(layer_name):
 	l = Layer(layer_name)
 	bbox = l.static_bbox()
 	return vo.bbox(bbox)
