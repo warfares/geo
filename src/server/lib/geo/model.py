@@ -28,7 +28,7 @@ class Bbox:
 		top_right = '%s %s' %(self.point_max.x, self.point_max.y)
 		bottom_left = '%s %s' %(self.point_min.x, self.point_min.y)
 		bottom_right = '%s %s' %(self.point_max.x, self.point_min.y)
-		return  'POLYGON((%s, %s, %s, %s, %s))'  %(bottom_left, bottom_right, top_right, top_left, bottom_left);
+		return  'POLYGON((%s, %s, %s, %s, %s))'  %(bottom_left, bottom_right, top_right, top_left, bottom_left)
 		
 class Metadata:
 	def __init__(self, name, type=''):
