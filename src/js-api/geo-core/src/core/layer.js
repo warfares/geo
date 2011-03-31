@@ -43,7 +43,7 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 	,
 	getMetadata:function(layer){
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('layerMetadata'),
+			url: Geo.UriTemplate.getUri('layer', layer + '/metadata'),
 			method: 'Get',
 			headers: { 'Content-Type': 'text/json' },
 			scope:this,
@@ -56,7 +56,7 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 	,
 	getBBox:function(layer){
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('layerBbox'),
+			url: Geo.UriTemplate.getUri('layer', layer + '/bbox'),
 			method: 'Get',
 			headers: { 'Content-Type': 'text/json' },
 			scope:this,
@@ -69,7 +69,7 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 	,
 	getStaticBBox:function(layer){
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('layerStaticBbox'),
+			url: Geo.UriTemplate.getUri('layer', layer + '/staticbbox'),
 			method: 'Get',
 			headers: { 'Content-Type': 'text/json' },
 			scope:this,

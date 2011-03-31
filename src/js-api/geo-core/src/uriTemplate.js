@@ -19,15 +19,12 @@ Geo.UriTemplate = {
 	groupClosestPoint: 'group/closestpoint',
 
 	layer: 'layer/',
-	layerMetadata: 'layer/metadata',
-	layerBbox: 'layer/bbox',
-	layerStaticBbox: 'layer/staticbbox',
 	layerQuery : 'layer/query',
 	
 	metadataDistinctValues : 'metadata/distinct_values',
 
 	getUri: function(action, option) {
-		var hostname = 'http://' + window.location.hostname + ':' + window.location.port + '/';
+		var hostname = 'http://' + window.location.hostname + '/';
 		return hostname + Geo.WSGIScriptAlias + '/' + Geo.UriTemplate[action] + (option || '');
 	}
 };  // eo Geo.Uritemplate
