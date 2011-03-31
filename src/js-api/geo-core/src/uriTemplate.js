@@ -21,13 +21,13 @@ Geo.UriTemplate = {
 	layer: 'layer/',
 	layerMetadata: 'layer/metadata',
 	layerBbox: 'layer/bbox',
-	layerStaticBbox + 'layer/staticbbox'
+	layerStaticBbox: 'layer/staticbbox',
 	layerQuery : 'layer/query',
 	
 	metadataDistinctValues : 'metadata/distinct_values',
 
 	getUri: function(action, option) {
-		var hostname = 'http://' + window.location.hostname + '/';
+		var hostname = 'http://' + window.location.hostname + ':' + window.location.port + '/';
 		return hostname + Geo.WSGIScriptAlias + '/' + Geo.UriTemplate[action] + (option || '');
 	}
 };  // eo Geo.Uritemplate
