@@ -29,7 +29,7 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 		};
 
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('layer_query'),
+			url: Geo.UriTemplate.getUri('layerQuery'),
 			method: 'Post',
 			headers: { 'Content-Type': 'text/json' },
 			jsonData: params,
@@ -43,7 +43,7 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 	,
 	getMetadata:function(layer){
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('layer', layer + '/metadata'),
+			url: Geo.UriTemplate.getUri('layerMetadata'),
 			method: 'Get',
 			headers: { 'Content-Type': 'text/json' },
 			scope:this,
@@ -56,7 +56,7 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 	,
 	getBBox:function(layer){
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('layer', layer + '/bbox'),
+			url: Geo.UriTemplate.getUri('layerBbox'),
 			method: 'Get',
 			headers: { 'Content-Type': 'text/json' },
 			scope:this,
@@ -69,7 +69,7 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 	,
 	getStaticBBox:function(layer){
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('layer', layer + '/staticbbox'),
+			url: Geo.UriTemplate.getUri('layerStaticBbox'),
 			method: 'Get',
 			headers: { 'Content-Type': 'text/json' },
 			scope:this,

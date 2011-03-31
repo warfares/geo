@@ -16,7 +16,7 @@ Geo.core.Group = Ext.extend(Ext.util.Observable, {
 		};
 		
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('group_static_bbox'),
+			url: Geo.UriTemplate.getUri('groupStaticBbox'),
 			method: 'Post',
 			headers: { 'Content-Type': 'text/json' },
 			jsonData: params,
@@ -37,7 +37,7 @@ Geo.core.Group = Ext.extend(Ext.util.Observable, {
 		};
 		
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('group_within_point'),
+			url: Geo.UriTemplate.getUri('groupWithinPoint'),
 			method: 'Post',
 			headers: { 'Content-Type': 'text/json' },
 			jsonData: params,
@@ -55,7 +55,7 @@ Geo.core.Group = Ext.extend(Ext.util.Observable, {
 			bbox: bbox
 		};
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('group_within_bbox'),
+			url: Geo.UriTemplate.getUri('groupWithinBbox'),
 			method: 'Post',
 			headers: { 'Content-Type': 'text/json' },
 			jsonData: params,
@@ -74,7 +74,7 @@ Geo.core.Group = Ext.extend(Ext.util.Observable, {
 		};
 		
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('group_closest_point'),
+			url: Geo.UriTemplate.getUri('groupClosestPoint'),
 			method: 'Post',
 			headers: { 'Content-Type': 'text/json' },
 			jsonData: params,

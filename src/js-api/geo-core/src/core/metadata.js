@@ -16,7 +16,7 @@ Geo.core.Metadata = Ext.extend(Ext.util.Observable, {
 		};
 
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('metadata_distinct_values', '?' + Ext.urlEncode(p)),
+			url: Geo.UriTemplate.getUri('metadataDistinctValues', '?' + Ext.urlEncode(p)),
 			method: 'Get',
 			headers: { 'Content-Type': 'text/json' },
 			scope: this,

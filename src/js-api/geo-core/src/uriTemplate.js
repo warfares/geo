@@ -13,15 +13,18 @@ Geo.WSGIScriptAlias = '';
 
 Geo.UriTemplate = {
 
-	group_static_bbox: 'group/staticbbox',
-	group_within_point: 'group/withinpoint',
-	group_within_bbox: 'group/withinbbox',
-	group_closest_point: 'group/closestpoint',
+	groupStaticBbox: 'group/staticbbox',
+	groupWithinPoint: 'group/withinpoint',
+	groupWithinBbox: 'group/withinbbox',
+	groupClosestPoint: 'group/closestpoint',
 
 	layer: 'layer/',
-	layer_query : 'layer/query',
+	layerMetadata: 'layer/metadata',
+	layerBbox: 'layer/bbox',
+	layerStaticBbox + 'layer/staticbbox'
+	layerQuery : 'layer/query',
 	
-	metadata_distinct_values : 'metadata/distinct_values',
+	metadataDistinctValues : 'metadata/distinct_values',
 
 	getUri: function(action, option) {
 		var hostname = 'http://' + window.location.hostname + '/';
