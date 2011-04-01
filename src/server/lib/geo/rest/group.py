@@ -35,8 +35,8 @@ def withinbbox():
 	vo_layers = o['layers']
 	vo_bbox = o['bbox']
 	
-	point_min = Point(vo_bbox['minx'],vo_bbox['miny'])
-	point_max = Point(vo_bbox['maxx'],vo_bbox['maxy'])
+	point_min = Point(vo_bbox['xmin'],vo_bbox['ymin'])
+	point_max = Point(vo_bbox['xmax'],vo_bbox['ymax'])
 	
 	bbox = Bbox(point_min, point_max)
 	layers = map(lambda l: Layer(l['name'],l['srid']), vo_layers)
