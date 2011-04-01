@@ -3,8 +3,9 @@ from geo.model import *
 import geo.rest.vo as vo
 import json
 
-@route('/layer/:layer_name/metadata')
-def metadata(layer_name):
+@get('/layer/metadata')
+def metadata():
+	layer_name = request.GET.get('layerName')	
 	l = Layer(layer_name)
 	metadatas = map(lambda m: vo.metadata(m), l.metadata())
 	return vo.collection(metadatas, len(metadatas))
@@ -24,15 +25,18 @@ def query():
 	results = l.query(fields, criteria, paging, start, limit,True, wkt)
 	return vo.collection(results, l.query_count(criteria))
 
-#TODO Fix this static values 
-@route('/layer/:layer_name/bbox')
-def bbox(layer_name):
+
+@get('/layer/bbox')
+def bbox():
+	layer_name = request.GET.get('layerName')
+	srid = request.GET.get('srid')
 	l = Layer(layer_name,32719)
 	bbox = l.bbox(96)
 	return vo.bbox(bbox)
 
-@route('/layer/:layer_name/staticbbox')
-def staticbbox(layer_name):
+@get('/layer/staticbbox')
+def staticbbox():
+	layer_name = request.GET.get('layerName')
 	l = Layer(layer_name)
 	bbox = l.static_bbox()
 	return vo.bbox(bbox)

@@ -18,7 +18,7 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 		limit = limit || 0;
 		wkt = wkt || false; 
 		
-		var params = {
+		var p = {
 			paging : paging,
 			start : start,
 			limit : limit,
@@ -32,7 +32,7 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 			url: Geo.UriTemplate.getUri('layerQuery'),
 			method: 'Post',
 			headers: { 'Content-Type': 'text/json' },
-			jsonData: params,
+			jsonData: p,
 			scope: this,
 			success: function (response, options) {
 				var result = Ext.util.JSON.decode(response.responseText);
@@ -41,9 +41,14 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 		});
 	}
 	,
-	getMetadata:function(layer){
+	getMetadata:function(layerName){
+		
+		var p = {
+			layerName : layerName
+		};
+		
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('layer', layer + '/metadata'),
+			url: Geo.UriTemplate.getUri('layerMetadata','?' +  Ext.urlEncode(p)),
 			method: 'Get',
 			headers: { 'Content-Type': 'text/json' },
 			scope:this,
@@ -54,9 +59,17 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 		});
 	}
 	,
-	getBBox:function(layer){
+	getBBox:function(layerName, srid){
+		
+		var srid = srid || '96';
+		
+		var p = {
+			layerName : layerName,
+			srid : srid
+		};
+		
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('layer', layer + '/bbox'),
+			url: Geo.UriTemplate.getUri('layerBbox','?' +  Ext.urlEncode(p)),
 			method: 'Get',
 			headers: { 'Content-Type': 'text/json' },
 			scope:this,
@@ -67,9 +80,14 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 		});
 	}
 	,
-	getStaticBBox:function(layer){
+	getStaticBBox:function(layerName){
+		
+		var p = {
+			layerName : layerName
+		};
+		
 		Ext.Ajax.request({
-			url: Geo.UriTemplate.getUri('layer', layer + '/staticbbox'),
+			url: Geo.UriTemplate.getUri('layerStaticBbox', '?' +  Ext.urlEncode(p)),
 			method: 'Get',
 			headers: { 'Content-Type': 'text/json' },
 			scope:this,

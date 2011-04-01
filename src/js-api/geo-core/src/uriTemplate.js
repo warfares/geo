@@ -20,6 +20,9 @@ Geo.UriTemplate = {
 
 	layer: 'layer/',
 	layerQuery : 'layer/query',
+	layerBbox: 'layer/bbox',
+	layerStaticBbox: 'layer/staticbbox',
+	layerMetadata: 'layer/metadata',
 	
 	metadataDistinctValues : 'metadata/distinct_values',
 
