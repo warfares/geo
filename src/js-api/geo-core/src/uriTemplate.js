@@ -24,7 +24,7 @@ Geo.UriTemplate = {
 	metadataDistinctValues : 'metadata/distinct_values',
 
 	getUri: function(action, option) {
-		var hostname = 'http://' + window.location.hostname + '/';
+		var hostname = 'http://' + window.location.hostname + ':' + window.location.port + '/';
 		return hostname + Geo.WSGIScriptAlias + '/' + Geo.UriTemplate[action] + (option || '');
 	}
 };  // eo Geo.Uritemplate
