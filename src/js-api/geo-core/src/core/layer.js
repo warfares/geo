@@ -18,6 +18,9 @@ Geo.core.Layer = Ext.extend(Ext.util.Observable, {
 		limit = limit || 0;
 		wkt = wkt || false; 
 		
+		if(!criteria)
+			criteria = [];
+		
 		var p = {
 			paging : paging,
 			start : start,
